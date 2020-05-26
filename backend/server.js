@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
 const mongoose = require('mongoose');
+const exercisesRouter = require('./routes/exercises');
+const usersRouter = require('./routes/users');
 
 require('dotenv').config();
 
@@ -24,6 +26,10 @@ connection.once('open', () => {
 connection.on('error', err => {
     console.error('MongoDB database connection error:', err)
 })
+
+// Routes
+app.use('/exercises', exercisesRouter);
+app.use('/users', usersRouter);
 
 // Start the server
 app.listen(port, () => {
