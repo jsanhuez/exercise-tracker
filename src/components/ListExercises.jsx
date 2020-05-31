@@ -55,8 +55,8 @@ function ListExercises() {
     return (
         <div>
             <h3>Logged Exercises</h3>
-            <table className='table'>
-                <thead className='thead-light'>
+            <table className='table table-striped table-bordered table-hover'>
+                <thead>
                     <tr>
                         <th>Username</th>
                         <th>Description</th>
