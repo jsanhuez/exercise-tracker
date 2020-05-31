@@ -5,23 +5,21 @@ import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
 function CreateExercise() {
-    const [username, bindUsername, resetUsername] = useInput('')
+    const [username, setUsername] = useState('')
     const [description, bindDescription, resetDescription] = useInput('')
     const [duration, bindDuration, resetDuration] = useInput(0)
-    const [date, bindDate, resetDate] = useInput(new Date())
+    const [date, setDate] = useState(new Date())
     const [users, setUsers] = useState([])
 
     useEffect(() => {
         axios.get('http://localhost:4000/users/')
             .then(response => {
                 if (response.data.length > 0) {
-                    setUsers({
-                        users: response.data.map(user => user.username),
-                        username: response.data[0].username
-                    })
+                    setUsers(response.data.map(user => user.username))
+                    setUsername(response.data[0].username)
                 }
             })
-            .catch((error) => {
+            .catch(error => {
                 console.log(error)
             })
     }, [])
@@ -35,12 +33,15 @@ function CreateExercise() {
             duration,
             date
         }
-        console.log(exercise);
-        
-        resetUsername()
+        console.log(exercise)
+
+        axios.post('http://localhost:4000/exercises/add', exercise)
+            .then(response => console.log(response.data))
+            .catch(error => console.log(error))
+
         resetDescription()
         resetDuration()
-        resetDate()
+        // window.location = '/';
     }
 
     return (
@@ -48,22 +49,21 @@ function CreateExercise() {
             <h3>Create New Exercise Log</h3>
             <form onSubmit={submitHandler}>
                 <div className='form-group'>
-                    <label>Username: </label>
-                    <select
-                        // ref='userInput'
-                        required
+                    <label>Username:</label>
+                    <select required
                         className='form-control'
-                        { ...bindUsername }
+                        value={username}
+                        onChange={e => setUsername(e.target.value)}
                     >
                         {
-                            users.map(function(user) {
-                                return <option key={user} value={user}>{user}</option>
-                            })
+                            users.map(user => (
+                                <option key={user} value={user}>{user}</option>
+                            ))
                         }
                     </select>
                 </div>
                 <div className='form-group'>
-                    <label>Description: </label>
+                    <label>Description:</label>
                     <input type='text'
                         required
                         className='form-control'
@@ -71,7 +71,7 @@ function CreateExercise() {
                     />
                 </div>
                 <div className='form-group'>
-                    <label>Duration (in minutes): </label>
+                    <label>Duration (in minutes):</label>
                     <input
                         type='text'
                         className='form-control'
@@ -79,19 +79,17 @@ function CreateExercise() {
                     />
                 </div>
                 <div className='form-group'>
-                    <label>Date: </label>
+                    <label>Date:</label>
                     <div>
                         <DatePicker
                             selected={date}
-                            { ...bindDate }
-                            // onChange={this.onChangeDate}
+                            onChange={date => setDate(date)}
                         />
                     </div>
                 </div>
 
                 <div className='form-group'>
-                    <input
-                        type='submit'
+                    <input type='submit'
                         value='Create Exercise'
                         className='btn btn-primary'
                     />
