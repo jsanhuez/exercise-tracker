@@ -44,11 +44,11 @@ function ListExercises() {
         setExercises(exercises => exercises.filter(el => el._id !== id))
     }
 
-    const listExercises = () => exercises.map(currentexercise => (
+    const listExercises = () => exercises.map(exercise => (
         <Exercise
-            exercise={currentexercise}
+            exercise={exercise}
             deleteExercise={deleteExercise}
-            key={currentexercise._id}
+            key={exercise._id}
         />
     ))
 
