@@ -35,13 +35,17 @@ function CreateExercise() {
         }
         console.log(exercise)
 
-        axios.post('http://localhost:4000/exercises/add', exercise)
-            .then(response => console.log(response.data))
+        axios.post('http://localhost:4000/exercises/add/', exercise)
+            .then(response => {
+                console.log(response.data)
+                setTimeout(() => {
+                    window.location = '/'
+                }, 1000)
+            })
             .catch(error => console.log(error))
 
         resetDescription()
         resetDuration()
-        // window.location = '/';
     }
 
     return (
