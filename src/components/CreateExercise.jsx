@@ -50,7 +50,7 @@ function CreateExercise() {
 
     return (
         <div>
-            <h3>Create New Exercise Log</h3>
+            <h3>Create New Exercise</h3>
             <form onSubmit={submitHandler}>
                 <div className='form-group'>
                     <label>Username:</label>
