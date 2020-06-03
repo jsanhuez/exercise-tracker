@@ -69,6 +69,8 @@ and run project
 :~/exercise-tracker$ npm start
 ```
 
+And enjoy!
+
 
 ## Author
 
